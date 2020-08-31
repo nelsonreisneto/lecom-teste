@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@EqualsAndHashCode(exclude = "cliente", callSuper = false)
 @Table(name = "tarefa", schema = "public")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,8 +21,5 @@ public class Tarefa extends EntidadeBase implements Serializable {
 
     @Column(name = "valor")
     private Double valor;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Cliente> cliente;
 
 }

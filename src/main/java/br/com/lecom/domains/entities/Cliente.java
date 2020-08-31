@@ -1,14 +1,17 @@
 package br.com.lecom.domains.entities;
 
 import br.com.lecom.domains.enums.TipoDocumentos;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
-@EqualsAndHashCode(exclude = "tarefa", callSuper = false)
 @Table(name = "cliente", schema = "public")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,8 +34,5 @@ public class Cliente extends EntidadeBase implements Serializable {
 
     @Column(name = "cliente_prata")
     private Boolean clientePrata;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Tarefa> tarefa;
 
 }

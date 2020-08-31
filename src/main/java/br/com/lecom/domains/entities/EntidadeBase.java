@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 abstract class EntidadeBase {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,5 +18,15 @@ abstract class EntidadeBase {
 
     @Column(name = "alterado", nullable = false)
     private LocalDateTime alterado;
+
+    @PrePersist
+    protected void onCreate() {
+        this.alterado = this.criado = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.alterado = LocalDateTime.now();
+    }
 
 }

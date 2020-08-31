@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface TarefaRepository extends JpaRepository<Tarefa, Long> {
 
-    List<Tarefa> findAllByCliente(Cliente cliente);
 }

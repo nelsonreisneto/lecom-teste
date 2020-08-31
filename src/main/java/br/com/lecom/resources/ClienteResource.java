@@ -1,5 +1,6 @@
 package br.com.lecom.resources;
 
+import br.com.lecom.domains.dtos.ClienteDto;
 import br.com.lecom.domains.entities.Cliente;
 import br.com.lecom.services.ClienteService;
 import io.swagger.annotations.ApiOperation;
@@ -50,8 +51,8 @@ public class ClienteResource {
             @ApiResponse(code = 500, message = "Um erro inesperado aconteceu.")
     })
     @PostMapping(value = "/insere")
-    public ResponseEntity<String> insereCliente(@RequestBody Cliente cliente) {
-        clienteService.adicionar(cliente);
+    public ResponseEntity<String> insereCliente(@RequestBody ClienteDto clienteDto) {
+        clienteService.adicionar(clienteDto);
         return ResponseEntity.ok("Cliente inserido com sucesso!");
     }
 

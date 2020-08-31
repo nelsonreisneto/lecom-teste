@@ -1,5 +1,6 @@
 package br.com.lecom.resources;
 
+import br.com.lecom.domains.dtos.TarefaDto;
 import br.com.lecom.domains.entities.Tarefa;
 import br.com.lecom.services.TarefaService;
 import io.swagger.annotations.ApiOperation;
@@ -50,7 +51,7 @@ public class TarefaResource {
             @ApiResponse(code = 500, message = "Um erro inesperado aconteceu.")
     })
     @PostMapping(value = "/insere")
-    public ResponseEntity<String> insereTarefa(@RequestBody Tarefa tarefa) {
+    public ResponseEntity<String> insereTarefa(@RequestBody TarefaDto tarefa) {
         tarefaService.adicionar(tarefa);
         return ResponseEntity.ok("Tarefa inserido com sucesso!");
     }
@@ -61,7 +62,7 @@ public class TarefaResource {
             @ApiResponse(code = 500, message = "Um erro inesperado aconteceu.")
     })
     @PutMapping(value = "/altera")
-    public ResponseEntity<String> alterarTarefa(@RequestBody Tarefa tarefa) {
+    public ResponseEntity<String> alterarTarefa(@RequestBody TarefaDto tarefa) {
         tarefaService.alterar(tarefa);
         return ResponseEntity.ok("Tarefa alterado com sucesso!");
     }

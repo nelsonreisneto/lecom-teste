@@ -1,6 +1,6 @@
 package br.com.lecom.services;
 
-import br.com.lecom.domains.entities.Cliente;
+import br.com.lecom.domains.dtos.TarefaDto;
 import br.com.lecom.domains.entities.Tarefa;
 import br.com.lecom.domains.repositories.TarefaRepository;
 import br.com.lecom.resources.exceptions.TarefaNaoEncontradoException;
@@ -20,12 +20,13 @@ public class TarefaService {
         this.tarefaRepository = tarefaRepository;
     }
 
-    public void adicionar(Tarefa tarefa) {
+    public void adicionar(TarefaDto tarefaDto) {
         log.info("Gravando um serviço na base de dados.");
-        if (Objects.isNull(tarefa.getNome())) {
+        if (Objects.isNull(tarefaDto.getNome())) {
             log.error("O serviço não pode ser nulo");
             throw new TarefaNaoEncontradoException("erro!");
         }
+        Tarefa tarefa = tarefaDto.toEntity(tarefaDto);
         tarefaRepository.saveAndFlush(tarefa);
     }
 
@@ -34,12 +35,13 @@ public class TarefaService {
         tarefaRepository.deleteById(id);
     }
 
-    public void alterar(Tarefa tarefa) {
-        log.info("Alterando o serviço {} da base", tarefa.getNome());
-        if (Objects.isNull(tarefa.getNome())) {
+    public void alterar(TarefaDto tarefaDto) {
+        log.info("Alterando o serviço {} da base", tarefaDto.getNome());
+        if (Objects.isNull(tarefaDto.getNome())) {
             log.error("O serviço não pode ser nulo");
             throw new TarefaNaoEncontradoException("erro!");
         }
+        Tarefa tarefa = tarefaDto.toEntity(tarefaDto);
         tarefaRepository.saveAndFlush(tarefa);
     }
 
