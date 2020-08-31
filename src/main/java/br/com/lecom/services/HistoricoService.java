@@ -1,7 +1,5 @@
 package br.com.lecom.services;
 
-import br.com.lecom.domains.dtos.ClienteDto;
-import br.com.lecom.domains.dtos.ClientexServicoDto;
 import br.com.lecom.domains.dtos.TarefaDto;
 import br.com.lecom.domains.entities.Cliente;
 import br.com.lecom.domains.entities.Historico;
@@ -70,14 +68,14 @@ public class HistoricoService {
         if (Boolean.TRUE.equals(cliente.getClienteOuro())) {
             return valor + (valor * 0.10);
         } else if (Boolean.TRUE.equals(cliente.getClientePrata())) {
-            return  valor + (valor * 0.05);
+            return valor + (valor * 0.05);
         }
         return valor;
     }
 
     private Double calculaDescontoData(Double valor, LocalDateTime dtFim) {
         if (LocalDateTime.now().isBefore(dtFim.minusDays(10L))) {
-            return  valor + (valor * 0.05);
+            return valor + (valor * 0.05);
         }
         return valor;
     }

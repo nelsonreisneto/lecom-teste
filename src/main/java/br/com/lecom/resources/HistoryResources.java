@@ -1,6 +1,5 @@
 package br.com.lecom.resources;
 
-import br.com.lecom.domains.dtos.ClienteDto;
 import br.com.lecom.domains.dtos.ClientexServicoDto;
 import br.com.lecom.domains.dtos.TarefaDto;
 import br.com.lecom.services.HistoricoService;
