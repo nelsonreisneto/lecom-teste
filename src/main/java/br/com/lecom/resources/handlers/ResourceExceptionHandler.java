@@ -2,6 +2,7 @@ package br.com.lecom.resources.handlers;
 
 import br.com.lecom.domains.dtos.RespostaExceptionDto;
 import br.com.lecom.resources.exceptions.ClienteNaoEncontradoException;
+import br.com.lecom.resources.exceptions.DocumentoNaoEncontradoException;
 import br.com.lecom.resources.exceptions.TarefaNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,19 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(ClienteNaoEncontradoException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<RespostaExceptionDto> clienteNaoEncontrado(
+            TarefaNaoEncontradoException e, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(RespostaExceptionDto
+                .builder()
+                .mensagem(e.getMessage())
+                .data(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy mm:ss")))
+                .caminho(request.getContextPath())
+                .build());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(DocumentoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<RespostaExceptionDto> documentoNaoEncontrado(
             TarefaNaoEncontradoException e, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(RespostaExceptionDto
                 .builder()

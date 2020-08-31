@@ -62,8 +62,8 @@ public class ClienteResource {
             @ApiResponse(code = 500, message = "Um erro inesperado aconteceu.")
     })
     @PutMapping(value = "/altera")
-    public ResponseEntity<String> alterarCliente(@RequestBody Cliente cliente) {
-        clienteService.alterar(cliente);
+    public ResponseEntity<String> alterarCliente(@RequestBody ClienteDto clienteDto) {
+        clienteService.alterar(clienteDto);
         return ResponseEntity.ok("Cliente alterado com sucesso!");
     }
 

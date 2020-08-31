@@ -7,7 +7,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: false
     database: mysql
 
@@ -18,3 +18,7 @@ spring:
     hikari:
       connection-timeout: ${HIKARI_TIMEOUT:20000}
       maximum-pool-size: ${HIKARI_POOL_SIZE:5}
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false

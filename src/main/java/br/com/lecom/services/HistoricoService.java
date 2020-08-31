@@ -1,10 +1,14 @@
 package br.com.lecom.services;
 
+import br.com.lecom.domains.dtos.ClienteDto;
+import br.com.lecom.domains.dtos.ClientexServicoDto;
 import br.com.lecom.domains.dtos.TarefaDto;
 import br.com.lecom.domains.entities.Cliente;
 import br.com.lecom.domains.entities.Historico;
 import br.com.lecom.domains.entities.Tarefa;
+import br.com.lecom.domains.repositories.ClienteRepository;
 import br.com.lecom.domains.repositories.HistoricoRepository;
+import br.com.lecom.domains.repositories.TarefaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +21,21 @@ import java.util.List;
 public class HistoricoService {
 
     private final HistoricoRepository historicoRepository;
+    private final ClienteRepository clienteRepository;
+    private final TarefaRepository tarefaRepository;
 
-    public HistoricoService(HistoricoRepository historicoRepository) {
+    public HistoricoService(HistoricoRepository historicoRepository,
+                            ClienteRepository clienteRepository,
+                            TarefaRepository tarefaRepository) {
         this.historicoRepository = historicoRepository;
+        this.clienteRepository = clienteRepository;
+        this.tarefaRepository = tarefaRepository;
     }
 
-    public void criarOrdemServico(Cliente cliente, Tarefa tarefa, LocalDateTime dtInicio, LocalDateTime dtFim) {
+    public void criarOrdemServico(String nomeCliente, String nomeTarefa, LocalDateTime dtInicio, LocalDateTime dtFim) {
+        Cliente cliente = clienteRepository.findFirstByNome(nomeCliente);
+        Tarefa tarefa = tarefaRepository.findFirstByNome(nomeTarefa);
+
         Historico historico = Historico.builder()
                 .cliente(cliente)
                 .tarefa(tarefa)
@@ -35,8 +48,9 @@ public class HistoricoService {
         historicoRepository.saveAndFlush(historico);
     }
 
-    public List<TarefaDto> exibirHistorico(Cliente cliente) {
-        log.info("Valores dos serviços do cliente {}", cliente.getNome());
+    public List<TarefaDto> exibirHistorico(String nomeCliente) {
+        log.info("Valores dos serviços do cliente {}", nomeCliente);
+        Cliente cliente = clienteRepository.findFirstByNome(nomeCliente);
         List<Historico> historicoPorCliente = historicoRepository.findAllByCliente(cliente);
         List<TarefaDto> tarefas = new ArrayList<>();
 
@@ -54,16 +68,16 @@ public class HistoricoService {
 
     private Double calculaClienteEspecial(Double valor, Cliente cliente) {
         if (Boolean.TRUE.equals(cliente.getClienteOuro())) {
-            return valor * 0.10;
+            return valor + (valor * 0.10);
         } else if (Boolean.TRUE.equals(cliente.getClientePrata())) {
-            return valor * 0.05;
+            return  valor + (valor * 0.05);
         }
         return valor;
     }
 
-    private Double calculaDescontoData(Double valor, LocalDateTime data) {
-        if (data.minusDays(10L).isBefore(LocalDateTime.now())) {
-            return valor * 0.05;
+    private Double calculaDescontoData(Double valor, LocalDateTime dtFim) {
+        if (LocalDateTime.now().isBefore(dtFim.minusDays(10L))) {
+            return  valor + (valor * 0.05);
         }
         return valor;
     }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class RespostaExceptionDto {
+    private static final long serialVersionUID = 1L;
 
     private String mensagem;
     private String data;
