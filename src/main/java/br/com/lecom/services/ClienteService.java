@@ -23,6 +23,49 @@ public class ClienteService {
         this.clienteRepository = clienteRepository;
     }
 
+    public void adicionar(ClienteDto clienteDto) {
+        log.info("Gravando um cliente na base de dados.");
+        validaDocumento(clienteDto);
+    }
+
+    public void apagar(Long id) {
+        log.info("Apagando um cliente na base de dados.");
+        clienteRepository.deleteById(id);
+    }
+
+    public void alterar(ClienteDto clienteDto) {
+        log.info("Alterando o cliente {} da base", clienteDto.getNome());
+        validaDocumento(clienteDto);
+    }
+
+    public Cliente buscar(Long id) {
+        log.info("Buscando cliente pelo ID {}", id);
+        return clienteRepository.findById(id).orElse(Cliente.builder().build());
+    }
+
+    public List<Cliente> buscarTodos() {
+        log.info("Buscando todos os registros.");
+        return clienteRepository.findAll();
+    }
+
+    private void validaDocumento(ClienteDto clienteDto) {
+        if (Objects.isNull(clienteDto)) {
+            log.error("O cliente não pode ser nulo");
+            throw new ClienteNaoEncontradoException("Erro! Cliente não encontrado para adicionar no banco de dados");
+        }
+        Cliente cliente = clienteDto.toEntity(clienteDto);
+
+        if (cliente.getTipoDocumentos().getTipo().equals(TipoDocumentos.CPF.getTipo()) && !cpf(cliente.getDocumento())) {
+            log.error("Documento CPF não foi encontrado ou não existe. Nome do cliente : {}", clienteDto.getNome());
+            throw new DocumentoNaoEncontradoException("Documento CPF não foi encontrado ou não existe.");
+        } else if (cliente.getTipoDocumentos().getTipo().equals(TipoDocumentos.CNPJ.getTipo()) && !cnpj(cliente.getDocumento())) {
+            log.error("Documento CNPJ não foi encontrado ou não existe. Nome do cliente : {}", clienteDto.getNome());
+            throw new DocumentoNaoEncontradoException("Documento CNPJ não foi encontrado ou não existe.");
+        }
+
+        clienteRepository.saveAndFlush(cliente);
+    }
+
     private static boolean cpf(String cpf) {
         char dig10;
         char dig11;
@@ -119,48 +162,5 @@ public class ClienteService {
         } catch (InputMismatchException erro) {
             return (false);
         }
-    }
-
-    public void adicionar(ClienteDto clienteDto) {
-        log.info("Gravando um cliente na base de dados.");
-        validaDocumento(clienteDto);
-    }
-
-    public void apagar(Long id) {
-        log.info("Apagando um cliente na base de dados.");
-        clienteRepository.deleteById(id);
-    }
-
-    public void alterar(ClienteDto clienteDto) {
-        log.info("Alterando o cliente {} da base", clienteDto.getNome());
-        validaDocumento(clienteDto);
-    }
-
-    public Cliente buscar(Long id) {
-        log.info("Buscando cliente pelo ID {}", id);
-        return clienteRepository.findById(id).orElse(Cliente.builder().build());
-    }
-
-    public List<Cliente> buscarTodos() {
-        log.info("Buscando todos os registros.");
-        return clienteRepository.findAll();
-    }
-
-    private void validaDocumento(ClienteDto clienteDto) {
-        if (Objects.isNull(clienteDto)) {
-            log.error("O cliente não pode ser nulo");
-            throw new ClienteNaoEncontradoException("Erro! Cliente não encontrado para adicionar no banco de dados");
-        }
-        Cliente cliente = clienteDto.toEntity(clienteDto);
-
-        if (cliente.getTipoDocumentos().getTipo().equals(TipoDocumentos.CPF.getTipo()) && !cpf(cliente.getDocumento())) {
-            log.error("Documento CPF não foi encontrado ou não existe. Nome do cliente : {}", clienteDto.getNome());
-            throw new DocumentoNaoEncontradoException("Documento CPF não foi encontrado ou não existe.");
-        } else if (cliente.getTipoDocumentos().getTipo().equals(TipoDocumentos.CNPJ.getTipo()) && !cnpj(cliente.getDocumento())) {
-            log.error("Documento CNPJ não foi encontrado ou não existe. Nome do cliente : {}", clienteDto.getNome());
-            throw new DocumentoNaoEncontradoException("Documento CNPJ não foi encontrado ou não existe.");
-        }
-
-        clienteRepository.saveAndFlush(cliente);
     }
 }
