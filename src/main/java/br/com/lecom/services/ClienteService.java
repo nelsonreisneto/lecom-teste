@@ -76,6 +76,9 @@ public class ClienteService {
         int peso;
 
         try {
+            if(cpf.length() != 11){
+                return false;
+            }
             sm = 0;
             peso = 10;
             for (i = 0; i < 9; i++) {
@@ -122,6 +125,9 @@ public class ClienteService {
         int peso;
 
         try {
+            if(cnpj.length() != 14){
+                return false;
+            }
             sm = 0;
             peso = 2;
             for (i = 11; i >= 0; i--) {

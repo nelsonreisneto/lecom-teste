@@ -3,6 +3,8 @@ package br.com.lecom.services;
 import br.com.lecom.domains.dtos.TarefaDto;
 import br.com.lecom.domains.entities.Tarefa;
 import br.com.lecom.domains.repositories.TarefaRepository;
+import br.com.lecom.resources.exceptions.ClienteNaoEncontradoException;
+import br.com.lecom.resources.exceptions.TarefaNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -79,5 +82,11 @@ class TarefaServiceTest {
         assertDoesNotThrow(() -> tarefaService.apagar(1L));
     }
 
+    @Test
+    void capturaExceptionTarefa() {
+        tarefaDto = null;
+
+        assertThrows(TarefaNaoEncontradoException.class, () -> tarefaService.adicionar(tarefaDto));
+    }
 
 }

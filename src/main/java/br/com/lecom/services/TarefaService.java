@@ -22,7 +22,7 @@ public class TarefaService {
 
     public void adicionar(TarefaDto tarefaDto) {
         log.info("Gravando um serviço na base de dados.");
-        if (Objects.isNull(tarefaDto.getNome())) {
+        if (Objects.isNull(tarefaDto)) {
             log.error("O serviço não pode ser nulo");
             throw new TarefaNaoEncontradoException("erro!");
         }

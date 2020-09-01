@@ -1,5 +1,6 @@
 package br.com.lecom.services;
 
+import br.com.lecom.domains.dtos.ClientexServicoDto;
 import br.com.lecom.domains.entities.Cliente;
 import br.com.lecom.domains.entities.Historico;
 import br.com.lecom.domains.entities.Tarefa;
@@ -64,6 +65,13 @@ class HistoricoServiceTest {
                 .nomeServico("")
                 .tarefa(tarefa)
                 .build();
+
+        ClientexServicoDto.builder()
+                .dtFim(LocalDateTime.now())
+                .dtInicio(LocalDateTime.now())
+                .nomeCliente("")
+                .nomeTarefa("")
+                .build();
     }
 
     @Test
@@ -75,9 +83,19 @@ class HistoricoServiceTest {
     }
 
     @Test
-    void consigoCriarOrdemDeSevico() {
+    void consigoCriarOrdemDeSevicoClienteOuro() {
         when(clientereRepository.findFirstByNome(anyString())).thenReturn(cliente);
         when(tarefaRepository.findFirstByNome(anyString())).thenReturn(tarefa);
+
+        assertDoesNotThrow(() -> historicoService.criarOrdemServico("", "", LocalDateTime.now(), LocalDateTime.now()));
+    }
+
+    @Test
+    void consigoCriarOrdemDeSevicoClientePrata() {
+        when(clientereRepository.findFirstByNome(anyString())).thenReturn(cliente);
+        when(tarefaRepository.findFirstByNome(anyString())).thenReturn(tarefa);
+        cliente.setClienteOuro(false);
+        cliente.setClientePrata(true);
 
         assertDoesNotThrow(() -> historicoService.criarOrdemServico("", "", LocalDateTime.now(), LocalDateTime.now()));
     }
