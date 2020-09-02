@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -15,8 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @Data
-public class Cliente extends EntidadeBase implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Cliente extends EntidadeBase {
 
     @Column(name = "nome")
     private String nome;

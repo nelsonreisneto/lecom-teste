@@ -17,7 +17,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +35,7 @@ class ClienteServiceTest {
     private ClienteService clienteService;
 
     @Test
-    void contextLoads(){
+    void contextLoads() {
         assertThat(clienteRepository).isNotNull();
         assertThat(clienteService).isNotNull();
     }

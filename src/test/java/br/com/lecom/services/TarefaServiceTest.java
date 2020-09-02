@@ -3,7 +3,6 @@ package br.com.lecom.services;
 import br.com.lecom.domains.dtos.TarefaDto;
 import br.com.lecom.domains.entities.Tarefa;
 import br.com.lecom.domains.repositories.TarefaRepository;
-import br.com.lecom.resources.exceptions.ClienteNaoEncontradoException;
 import br.com.lecom.resources.exceptions.TarefaNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

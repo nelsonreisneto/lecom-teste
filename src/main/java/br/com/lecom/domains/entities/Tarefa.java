@@ -14,7 +14,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @Data
-public class Tarefa extends EntidadeBase implements Serializable {
+public class
+Tarefa extends EntidadeBase implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "nome")
